@@ -1,5 +1,5 @@
-import {View, StyleSheet} from 'react-native';
-
+import {View, StyleSheet, FlatList, Text} from 'react-native';
+ 
 const categorias = [
   {
     id: "1",
@@ -50,15 +50,70 @@ const categorias = [
     ],
   },
 ];
-
-
+ 
+ 
+ 
 export default function App() {
     return (
-
-        <View></View>
+      <View style={{ flex: 1, padding: 9, backgroundColor: '#07010f' }}>
+         <FlatList
+          data = {categorias}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCategoria}
+        />
+      </View>
     );
 }
 
+function renderCategoria({item}:{item:any}){
+  return (
+    <View style={styles.categotias}>
+      <Text style={styles.titulo}>{item.titulo}</Text>
+      <FlatList
+        data = {item.filmes}
+        keyExtractor={filme=>filme.id}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingHorizontal: 10}}
+        renderItem={(({item})=>(
+          <View style={[styles.filme, { backgroundColor: item.cor }]}>
+            <Text style={styles.filmeTexto}>{item.titulo}</Text>
+          </View>
+        ))}
+      />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-       
+  categotias: {
+    backgroundColor: '#7c1111',
+    padding: 20,
+    borderRadius: 5,
+    marginBottom: 20,
+    height: 400,
+    color: '#fff',
+  },
+  filme: {
+    padding:50,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: 200,
+    height: 350,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  filmeTexto: {
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+    fontFamily: 'arial',
+    fontWeight: 'bold',
+  },
+  titulo: {
+    fontFamily: 'arial',
+    fontSize: 20,
+    color: '#fff',
+    paddingBottom: 10,
+  },
 });
