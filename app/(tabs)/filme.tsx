@@ -10,7 +10,7 @@ export default function FilmeScreen() {
                  <View style={styles.Poster}>
                     <Image
                      source={{ uri: "https://image.tmdb.org/t/p/original/5zMiji6nLQPW0N6rocXYVbQuJXo.jpg" }}
-                     style={styles}
+                     style={styles.card}
                     />
                 </View>
                 <View style={styles.AvaliacaoBox}>
@@ -78,9 +78,10 @@ const styles = StyleSheet.create({
     Poster: {
         backgroundColor: 'rgb(75, 4, 4)',
         padding: 10,
-        borderRadius: 5,
+        borderRadius: 12,
         height: 500,
         marginTop: 10,
+        overflow: 'hidden',
     },
     Sinopse: {
         color: '#c7c1cc',
@@ -147,5 +148,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
         padding: 10,
         alignSelf: 'center',
+    },
+    card: {
+      width: "100%",
+      height: "100%",
+      borderRadius: 10
     },
 });

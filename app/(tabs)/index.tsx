@@ -1,6 +1,6 @@
-import {View, StyleSheet, FlatList, Text, Image, TextInput} from 'react-native';
+import { View, StyleSheet, FlatList, Text, Image, TextInput, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
- 
+
 const categorias = [
   {
     id: "1",
@@ -51,74 +51,171 @@ const categorias = [
     ],
   },
 ];
- 
- 
- 
+
 export default function App() {
-    return (
-      <View style={{ flex: 1, padding: 9, backgroundColor: '#0f060f' }}>
-        <FlatList
-          data = {categorias}
-          keyExtractor={(item) => item.id}
-          renderItem={renderCategoria}
+  return (
+    <View style={styles.container}>
+
+      {/* Header */}
+      <View style={styles.header}>
+        <Image
+          source={require("./")}
+          style={styles.logo}
+        />
+
+        <Ionicons
+          name="person-circle-outline"
+          size={36}
+          color="white"
         />
       </View>
-    );
+
+      {/* Barra de pesquisa */}
+      <View style={styles.search}>
+        <Ionicons
+          name="search"
+          size={20}
+          color="#888"
+        />
+
+        <TextInput
+          placeholder="Pesquisar filmes..."
+          placeholderTextColor="#888"
+          style={styles.input}
+        />
+      </View>
+
+      <FlatList
+        data={categorias}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderCategoria}
+      />
+
+    </View>
+  );
 }
 
-function renderCategoria({item}:{item:any}){
+function renderCategoria({ item }) {
   return (
-    <View style={styles.categotias}>
-      <Text style={styles.titulo}>{item.titulo}</Text>
+    <View style={styles.categoria}>
+
+      <Text style={styles.tituloCategoria}>
+        {item.titulo}
+      </Text>
+
       <FlatList
-        data = {item.filmes}
-        keyExtractor={filme=>filme.id}
-        horizontal={true}
+        data={item.filmes}
+        horizontal
+        keyExtractor={(filme) => filme.id}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 10}}
-        renderItem={(({item})=>(
-          <Image 
-            source={{ uri: item.imagem }}
-            style={[styles.filme]}
-            resizeMode="cover"
-          >
-          </Image>
-        ))}
+        renderItem={({ item }) => (
+
+          <Pressable style={styles.card}>
+
+            <Image
+              source={{ uri: item.imagem }}
+              style={styles.imagem}
+              resizeMode="cover"
+            />
+
+            <View style={styles.overlay}>
+              <Text
+                style={styles.nomeFilme}
+                numberOfLines={2}
+              >
+                {item.titulo}
+              </Text>
+            </View>
+
+          </Pressable>
+
+        )}
       />
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  categotias: {
-    backgroundColor: 'transparent',
-    padding: 20,
-    borderRadius: 5,
-    marginBottom: 10,
-    height: 400,
-    color: '#fff',
+
+  container: {
+    flex: 1,
+    backgroundColor: "#07010f",
+    paddingTop: 15,
   },
-  filme: {
-    borderRadius: 5,
-    marginBottom: 10,
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginBottom: 15,
+  },
+
+  logo: {
+    width: 140,
+    height: 45,
+    resizeMode: "contain",
+  },
+
+  search: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1A1020",
+    marginHorizontal: 20,
+    marginBottom: 25,
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    height: 48,
+  },
+
+  input: {
+    flex: 1,
+    color: "#FFF",
+    marginLeft: 10,
+    fontSize: 16,
+  },
+
+  categoria: {
+    marginBottom: 30,
+  },
+
+  tituloCategoria: {
+    color: "#FFF",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginLeft: 20,
+    marginBottom: 15,
+  },
+
+  card: {
     width: 150,
     height: 220,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    cursor: 'pointer',
-    shadowColor: "#000",
+    marginLeft: 20,
+    borderRadius: 12,
+    overflow: "hidden",
+    elevation: 6,
+    backgroundColor: "#130814",
   },
-  filmeTexto: {
-    color: '#fff',
-    fontSize: 20,
-    textAlign: 'center',
-    fontFamily: 'arial',
-    fontWeight: 'bold',
+
+  imagem: {
+    width: "100%",
+    height: "100%",
   },
-  titulo: {
-    fontFamily: 'arial',
-    fontSize: 20,
-    color: '#fff',
-    paddingBottom: 10,
+
+  overlay: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "rgba(0,0,0,0.6)",
+    padding: 8,
   },
+
+  nomeFilme: {
+    color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+
 });
