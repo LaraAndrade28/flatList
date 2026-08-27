@@ -1,4 +1,6 @@
 import { View, StyleSheet, FlatList, Text, Image, TextInput, Pressable } from "react-native";
+import {Link} from 'expo-router';
+import { Ionicons } from "@expo/vector-icons";
 
 const categorias = [
   {
@@ -118,14 +120,14 @@ function renderCategoria({ item }) {
               resizeMode="cover"
             />
 
-            <View style={styles.overlay}>
+            <Link href={"/filme"} style={styles.overlay}>
               <Text
                 style={styles.nomeFilme}
                 numberOfLines={2}
               >
                 {item.titulo}
               </Text>
-            </View>
+            </Link>
 
           </Pressable>
 
