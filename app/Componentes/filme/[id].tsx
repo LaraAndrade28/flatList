@@ -2,27 +2,48 @@ import{View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, Button} from
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
+import CategoriasDosFilmes from '../CategoriasDosFilmes';
+
+type Filme = {
+    id: string;
+    titulo: string;
+    imagem: string;
+    avaliacao?: string | number;
+    ano?: string | number;
+    duracao?: string;
+    sinopse?: string;
+    genero1?: string;
+    genero2?: string;
+    genero3?: string;
+};
 
 export default function FilmeScreen() { 
     const { id } = useLocalSearchParams();
     console.log('ID do filme:', id); // Adicione este log para verificar o valor de id
+
+   const categorias = CategoriasDosFilmes();
+    const filmeEncontrado = categorias
+    .flatMap((categoria) => categoria.filmes)
+     .find((filme) => filme.id === id) as Filme | undefined;
+
+   console.log('Filme encontrado:', filmeEncontrado); // Adicione este log para verificar o filme encontrado 
     return (
         <ScrollView style={styles.PaiDeTodos}>
             <View style={styles.Header}>
-                <Text style={styles.Titulo}>Knives Out</Text>
+                <Text style={styles.Titulo}>{filmeEncontrado?.titulo}</Text>
                  <View style={styles.Poster}>
                     <Image
-                     source={{ uri: "https://image.tmdb.org/t/p/original/5zMiji6nLQPW0N6rocXYVbQuJXo.jpg" }}
+                     source={{ uri: filmeEncontrado?.imagem }}
                      style={styles.card}
                     />
                 </View>
                 <View style={styles.AvaliacaoBox}>
                     <Text style={styles.Avaliacao}>
-                     ⭐ 8.5/10
+                     ⭐ {filmeEncontrado?.avaliacao}
                      </Text>
                 </View>
                 <Text style={styles.Info}>
-                    2019 • Mistério • 2h 10min
+                    {filmeEncontrado?.ano}      {filmeEncontrado?.duracao}
                 </Text>
                 <TouchableOpacity style={styles.Botao}>
                     <Text style={styles.BotaoTexto}>
@@ -33,24 +54,24 @@ export default function FilmeScreen() {
                     SINOPSE
                 </Text>
                 <Text style={styles.Sinopse}>
-                Em uma mansão isolada, o renomado escritor de mistério Harlan Thrombey é encontrado morto após sua festa de aniversário. O detetive Benoit Blanc é chamado para investigar o caso e rapidamente percebe que todos os membros da família têm motivos para querer a morte de Harlan. Com uma série de pistas falsas e segredos familiares sendo revelados, Blanc deve desvendar o mistério antes que o assassino escape impune.
+                {filmeEncontrado?.sinopse}
                 </Text>
                  <View style={styles.Generos}>
                     <View style={styles.Tag}>
                         <Text style={styles.TextoTag}>
-                            Mistério
+                            {filmeEncontrado?.genero1}
                         </Text>
                     </View>
 
                     <View style={styles.Tag}>
                         <Text style={styles.TextoTag}>
-                            Crime
+                            {filmeEncontrado?.genero2}
                         </Text>
                     </View>
 
                     <View style={styles.Tag}>
                         <Text style={styles.TextoTag}>
-                            Comédia
+                            {filmeEncontrado?.genero3}
                         </Text>
                     </View>
                 </View>
