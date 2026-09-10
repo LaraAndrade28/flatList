@@ -2,8 +2,8 @@ import { View, StyleSheet, FlatList, Text, Image, TextInput, Pressable } from "r
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
-import CategoriasDosFilmes from "../Componentes/categoriasDosFilmes";
-import renderCategoria from "../Componentes/CardCategorias";
+import CategoriasDosFilmes from "../componentes/CategoriasDosFilmes";
+import renderCategoria from "../componentes/CardCategorias";
 
 const categorias = CategoriasDosFilmes();
 

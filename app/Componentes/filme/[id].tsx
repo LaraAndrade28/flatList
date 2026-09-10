@@ -1,8 +1,11 @@
 import{View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, Button} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-export default function FilmeScreen() {
+export default function FilmeScreen() { 
+    const { id } = useLocalSearchParams();
+    console.log('ID do filme:', id); // Adicione este log para verificar o valor de id
     return (
         <ScrollView style={styles.PaiDeTodos}>
             <View style={styles.Header}>
