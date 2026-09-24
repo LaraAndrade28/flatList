@@ -24,7 +24,13 @@ export default function renderCategoria({ item }:{item:any}) {
               resizeMode="cover"
             />
 
-            <Link href={"/componentes/filme/" + item.id} style={styles.overlay}>
+            <Link
+              href={{
+                pathname: "/componentes/filme/[id]",
+                params: { id: String(item.id) },
+              }}
+              style={styles.overlay}
+            >
               <Text
                 style={styles.nomeFilme}
                 numberOfLines={2}

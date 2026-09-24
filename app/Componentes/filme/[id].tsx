@@ -1,6 +1,5 @@
-import{View, StyleSheet, Text, TouchableOpacity, Image, ScrollView, Button} from 'react-native';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Stack } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 import CategoriasDosFilmes from '../CategoriasDosFilmes';
 
@@ -19,16 +18,28 @@ type Filme = {
 
 export default function FilmeScreen() { 
     const { id } = useLocalSearchParams();
-    console.log('ID do filme:', id); // Adicione este log para verificar o valor de id
+    const filmeId = Array.isArray(id) ? id[0] : id;
 
-   const categorias = CategoriasDosFilmes();
+    const categorias = CategoriasDosFilmes();
     const filmeEncontrado = categorias
-    .flatMap((categoria) => categoria.filmes)
-     .find((filme) => filme.id === id) as Filme | undefined;
+        .flatMap((categoria) => categoria.filmes)
+        .find((filme) => filme.id === filmeId) as Filme | undefined;
 
-   console.log('Filme encontrado:', filmeEncontrado); // Adicione este log para verificar o filme encontrado 
     return (
-        <ScrollView style={styles.PaiDeTodos}>
+        <>
+            <Stack.Screen
+                options={{
+            title: filmeEncontrado?.titulo || 'Filme',
+            headerStyle: {
+                backgroundColor: '#6e0505ff',
+            },
+            headerTintColor: '#ffffffff',
+            headerTitleStyle: {
+                fontWeight: '700',
+            }
+                }}
+            />
+            <ScrollView style={styles.PaiDeTodos}>
             <View style={styles.Header}>
                 <Text style={styles.Titulo}>{filmeEncontrado?.titulo}</Text>
                  <View style={styles.Poster}>
@@ -76,7 +87,8 @@ export default function FilmeScreen() {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+            </ScrollView>
+        </>
     );
 }
 
